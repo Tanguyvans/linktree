@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube sans putaclic | Code Simple</title>
+    <meta name="description" content="Le guide de la vidéo : l'extension Chrome toute prête et les prompts pour la refaire avec Claude Code.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap');
+
+        :root {
+            --clr-deep: #1a1032;
+            --clr-orange: #ff6600;
+            --clr-sun: #f5c842;
+            --radius: 20px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--clr-deep);
+            color: #fff;
+            min-height: 100vh;
+            line-height: 1.55;
+        }
+        .bg {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 600px 600px at 15% 10%, rgba(74, 144, 196, .45) 0%, transparent 60%),
+                radial-gradient(ellipse 600px 600px at 90% 30%, rgba(255, 102, 0, .35) 0%, transparent 55%),
+                radial-gradient(ellipse 600px 600px at 40% 95%, rgba(184, 169, 232, .35) 0%, transparent 55%);
+            z-index: 0;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 32px 16px 48px;
+        }
+        .back {
+            display: inline-block;
+            color: rgba(255, 255, 255, .6);
+            text-decoration: none;
+            font-size: .9rem;
+            margin-bottom: 24px;
+        }
+        .back:hover { color: #fff; }
+        h1 { font-size: 2rem; line-height: 1.15; font-weight: 700; }
+        .lede { color: rgba(255, 255, 255, .7); margin: 10px 0 28px; }
+        .card {
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: var(--radius);
+            padding: 22px 20px;
+            margin-bottom: 18px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .tag {
+            display: inline-block;
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--clr-sun);
+            margin-bottom: 6px;
+        }
+        h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 10px; }
+        p, li { font-size: .98rem; color: rgba(255, 255, 255, .85); }
+        ol { padding-left: 22px; margin: 8px 0 4px; }
+        li { margin-bottom: 6px; }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .85em;
+            background: rgba(255, 255, 255, .1);
+            padding: 1px 6px;
+            border-radius: 6px;
+        }
+        a { color: #ffb088; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 12px 18px;
+            border-radius: 14px;
+            border: 0;
+            font: 600 .95rem 'Outfit', sans-serif;
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--clr-orange), #ff9a3c);
+            box-shadow: 0 4px 20px rgba(255, 102, 0, .3);
+        }
+        .btn.ghost { background: rgba(255, 255, 255, .1); box-shadow: none; }
+        .prompt {
+            position: relative;
+            margin-top: 12px;
+            padding: 16px 16px 60px;
+            border-radius: 14px;
+            background: rgba(0, 0, 0, .35);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .85rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #fff;
+        }
+        .prompt .btn { position: absolute; right: 12px; bottom: 12px; margin: 0; padding: 8px 14px; font-size: .85rem; }
+        .note { font-size: .85rem; color: rgba(255, 255, 255, .55); margin-top: 8px; }
+        .warn {
+            border-left: 3px solid var(--clr-sun);
+            padding: 10px 14px;
+            margin-bottom: 18px;
+            border-radius: 0 12px 12px 0;
+            background: rgba(245, 200, 66, .1);
+            font-size: .95rem;
+        }
+        footer { margin-top: 32px; font-size: .8rem; color: rgba(255, 255, 255, .45); }
+        footer a { color: rgba(255, 255, 255, .65); }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <main class="container">
+        <a class="back" href="../">← @code_simple</a>
+        <h1>YouTube sans putaclic</h1>
+        <p class="lede">Une extension Chrome qui remplace les miniatures par une image du milieu de la vidéo, et l'accueil par des vidéos que des développeurs se recommandent depuis près de 20 ans.</p>
+
+        <p class="warn">À faire sur ordinateur, dans Chrome, Brave ou Edge. Les extensions ne marchent pas sur téléphone.</p>
+
+        <section class="card">
+            <span class="tag">Le plus rapide</span>
+            <h2>Installer l'extension de la vidéo</h2>
+            <ol>
+                <li>Télécharge l'extension et décompresse le fichier.</li>
+                <li>Ouvre <code>chrome://extensions</code> et active le <b>Mode développeur</b>, en haut à droite.</li>
+                <li>Clique sur <b>Charger l'extension non empaquetée</b> et choisis le dossier <code>extension</code>.</li>
+                <li>Recharge YouTube.</li>
+            </ol>
+            <a class="btn" href="https://github.com/codesimple-lab/youtube-sans-putaclic/archive/refs/heads/main.zip">Télécharger l'extension</a>
+            <a class="btn ghost" href="https://github.com/codesimple-lab/youtube-sans-putaclic" target="_blank" rel="noopener">Voir le code sur GitHub</a>
+            <p class="note">Deux boutons apparaissent en bas à gauche de YouTube pour revenir aux miniatures et aux recommandations d'origine.</p>
+        </section>
+
+        <section class="card">
+            <span class="tag">Comme dans la vidéo</span>
+            <h2>La refaire avec Claude Code</h2>
+            <ol>
+                <li>Télécharge les données sur <a href="https://hackertube.org/data" target="_blank" rel="noopener">hackertube.org/data</a> et décompresse-les.</li>
+                <li>Ouvre Claude Code dans ce dossier.</li>
+                <li>Colle cette demande.</li>
+            </ol>
+            <div class="prompt" id="p1">Lis DATA.md dans ce dossier. Crée-moi une extension Chrome pour YouTube. Elle remplace l'accueil par ces vidéos, avec des filtres par type et par thème. Elle affiche partout l'image du milieu de la vidéo au lieu de la miniature, avec un bouton pour revenir aux originales. Et sur une vidéo, elle remplace les suggestions de droite par des vidéos proches de la liste.<button class="btn" data-copy="p1">Copier</button></div>
+        </section>
+
+        <section class="card">
+            <span class="tag">Sur ce que tu aimes</span>
+            <h2>Ton propre algorithme</h2>
+            <p>Vlogs, cuisine, sport… Ouvre Claude Code dans un dossier vide, colle cette demande et remplace la partie entre crochets par les liens des chaînes que tu aimes.</p>
+            <div class="prompt" id="p2">Crée-moi une extension Chrome pour YouTube. Elle remplace l'accueil par les dernières vidéos de ces chaînes : [colle ici les liens des chaînes, par exemple https://www.youtube.com/@750g_recette_de_cuisine]. Vérifie en ligne l'identifiant de chaque chaîne. Elle cache les Shorts partout, y compris dans la recherche. Elle affiche l'image du milieu de chaque vidéo au lieu de la miniature, avec un bouton pour revenir aux originales. Pas de clé API. Explique-moi ensuite comment l'installer dans Chrome.<button class="btn" data-copy="p2">Copier</button></div>
+<p class="note">Donne les liens des chaînes plutôt que leurs noms : plusieurs chaînes portent parfois le même nom. YouTube ne donne que les 15 dernières publications de chaque chaîne, donc une chaîne qui publie surtout des Shorts apparaîtra peu.</p>
+        </section>
+
+        <footer>
+            Données : <a href="https://hackertube.org" target="_blank" rel="noopener">HackerTube</a> (projet d'Andrej Karpathy) et
+            <a href="https://huggingface.co/datasets/open-index/hacker-news" target="_blank" rel="noopener">open-index/hacker-news</a>,
+            licence <a href="https://opendatacommons.org/licenses/by/1-0/" target="_blank" rel="noopener">ODC-By 1.0</a>.
+            Sans lien avec YouTube, Google, Hacker News ou Y Combinator.
+        </footer>
+    </main>
+    <script>
+        document.querySelectorAll('[data-copy]').forEach((b) => {
+            b.addEventListener('click', async () => {
+                const box = document.getElementById(b.dataset.copy);
+                const text = box.firstChild.textContent.trim();
+                let ok = false;
+                try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {}
+                if (!ok) {
+                    const range = document.createRange();
+                    range.selectNodeContents(box.firstChild);
+                    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+                    try { ok = document.execCommand('copy'); } catch (e) {}
+                }
+                b.textContent = ok ? 'Copié !' : 'Sélectionné';
+                setTimeout(() => (b.textContent = 'Copier'), 1800);
+            });
+        });
+    </script>
+</body>
+</html>
