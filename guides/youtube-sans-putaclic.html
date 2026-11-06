@@ -5,185 +5,328 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube sans putaclic | Code Simple</title>
     <meta name="description" content="Le guide de la vidéo : l'extension Chrome toute prête et les prompts pour la refaire avec Claude Code.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Kalam:wght@300;400;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap');
-
+        /* même papier que la cheatsheet Claude Code */
         :root {
-            --clr-deep: #1a1032;
-            --clr-orange: #ff6600;
-            --clr-sun: #f5c842;
-            --radius: 20px;
+            --paper: #faf8f5;
+            --ink: #2a2520;
+            --ink-soft: #5e4f3d;
+            --ink-faint: #9c8568;
+            --sand-200: #e8e0d4;
+            --sand-900: #1f1a14;
+            --orange: #e07c3e;
+            --highlight: #ffe08a;
+            --sticky: #fef4a8;
+            --hand: 'Caveat', cursive;
+            --hand-body: 'Kalam', cursive;
+            --mono: 'JetBrains Mono', ui-monospace, monospace;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--clr-deep);
-            color: #fff;
-            min-height: 100vh;
-            line-height: 1.55;
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.6;
         }
-        .bg {
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 600px 600px at 15% 10%, rgba(74, 144, 196, .45) 0%, transparent 60%),
-                radial-gradient(ellipse 600px 600px at 90% 30%, rgba(255, 102, 0, .35) 0%, transparent 55%),
-                radial-gradient(ellipse 600px 600px at 40% 95%, rgba(184, 169, 232, .35) 0%, transparent 55%);
-            z-index: 0;
+        ::selection { background: var(--orange); color: #fff; }
+        a { color: inherit; }
+
+        .top {
+            border-bottom: 1.5px solid var(--ink);
+            padding: 14px 16px;
         }
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 640px;
-            margin: 0 auto;
-            padding: 32px 16px 48px;
-        }
-        .back {
-            display: inline-block;
-            color: rgba(255, 255, 255, .6);
+        .top a {
+            font-family: var(--hand);
+            font-weight: 700;
+            font-size: 24px;
             text-decoration: none;
-            font-size: .9rem;
-            margin-bottom: 24px;
         }
-        .back:hover { color: #fff; }
-        h1 { font-size: 2rem; line-height: 1.15; font-weight: 700; }
-        .lede { color: rgba(255, 255, 255, .7); margin: 10px 0 28px; }
-        .card {
-            background: rgba(255, 255, 255, .07);
-            border: 1px solid rgba(255, 255, 255, .1);
-            border-radius: var(--radius);
-            padding: 22px 20px;
-            margin-bottom: 18px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+        .wrap { max-width: 640px; margin: 0 auto; padding: 28px 16px 56px; }
+
+        .sketch {
+            border: 1.5px solid var(--ink);
+            border-radius: 8px 5px 9px 4px / 4px 8px 5px 9px;
+            background: #fff;
         }
-        .tag {
-            display: inline-block;
-            font-size: .72rem;
-            font-weight: 600;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            color: var(--clr-sun);
-            margin-bottom: 6px;
+        .sketch.thick { border-width: 2.5px; }
+        .highlight {
+            background: linear-gradient(180deg, transparent 45%, var(--highlight) 45%, var(--highlight) 90%, transparent 90%);
+            padding: 0 2px;
         }
-        h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 10px; }
-        p, li { font-size: .98rem; color: rgba(255, 255, 255, .85); }
-        ol { padding-left: 22px; margin: 8px 0 4px; }
-        li { margin-bottom: 6px; }
+
+        h1 {
+            font-family: var(--hand);
+            font-weight: 700;
+            font-size: 46px;
+            line-height: 1.05;
+            margin-bottom: 10px;
+        }
+        .lede {
+            font-family: var(--hand-body);
+            font-size: 17px;
+            color: var(--ink-soft);
+        }
+
+        /* avant / après */
+        .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 26px 0 8px; }
+        .compare figure { padding: 6px 6px 4px; }
+        .compare figure:first-child { transform: rotate(-1.2deg); }
+        .compare figure:last-child { transform: rotate(1deg); }
+        .compare img { display: block; width: 100%; border-radius: 4px; }
+        .compare figcaption {
+            font-family: var(--hand);
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+            padding-top: 2px;
+        }
+        .compare figure:last-child figcaption { color: var(--orange); }
+
+        .sticky {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            background: var(--sticky);
+            padding: 14px 16px;
+            margin: 26px 0 8px;
+            border-radius: 6px 9px 4px 8px / 7px 5px 8px 4px;
+            transform: rotate(-0.5deg);
+            font-family: var(--hand-body);
+            font-size: 16px;
+        }
+        .sticky .bang {
+            flex: none;
+            width: 26px; height: 26px;
+            border: 2px solid var(--ink);
+            border-radius: 50%;
+            display: grid; place-items: center;
+            font-weight: 700; font-family: 'Space Grotesk', sans-serif; font-size: 15px;
+        }
+        .sticky b { font-weight: 700; }
+
+        section { margin-top: 40px; }
+        .step-head { display: flex; gap: 14px; align-items: center; margin-bottom: 10px; }
+        .num {
+            flex: none;
+            width: 42px; height: 42px;
+            display: grid; place-items: center;
+            font-family: var(--hand);
+            font-weight: 700;
+            font-size: 26px;
+        }
+        .num.yellow { background: var(--sticky); }
+        h2 {
+            font-family: var(--hand);
+            font-weight: 700;
+            font-size: 30px;
+            line-height: 1.1;
+        }
+        .kicker {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--ink-faint);
+            letter-spacing: .04em;
+        }
+        section p, section li {
+            font-family: var(--hand-body);
+            font-size: 16px;
+            color: var(--ink-soft);
+        }
+        ol { padding-left: 22px; margin: 6px 0 4px; }
+        li { margin-bottom: 4px; }
+        li::marker { font-family: var(--hand); font-weight: 700; color: var(--ink); }
         code {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .85em;
-            background: rgba(255, 255, 255, .1);
+            font-family: var(--mono);
+            font-size: .82em;
+            background: var(--sand-200);
+            color: #4a3728;
             padding: 1px 6px;
-            border-radius: 6px;
+            border-radius: 4px;
         }
-        a { color: #ffb088; }
+
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; align-items: center; }
         .btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 12px;
-            padding: 12px 18px;
-            border-radius: 14px;
-            border: 0;
-            font: 600 .95rem 'Outfit', sans-serif;
-            color: #fff;
+            padding: 8px 16px;
+            font-family: var(--hand);
+            font-weight: 700;
+            font-size: 22px;
             text-decoration: none;
+            color: var(--ink);
             cursor: pointer;
-            background: linear-gradient(135deg, var(--clr-orange), #ff9a3c);
-            box-shadow: 0 4px 20px rgba(255, 102, 0, .3);
+            transition: transform .15s;
         }
-        .btn.ghost { background: rgba(255, 255, 255, .1); box-shadow: none; }
-        .prompt {
-            position: relative;
-            margin-top: 12px;
-            padding: 16px 16px 60px;
-            border-radius: 14px;
-            background: rgba(0, 0, 0, .35);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .85rem;
-            line-height: 1.6;
+        .btn:hover { transform: translateY(-2px) rotate(-1.2deg); }
+        .btn.main { background: var(--sticky); transform: rotate(-1.2deg); }
+        .btn.main:hover { transform: translateY(-2px) rotate(-1.2deg); }
+
+        /* prompt façon terminal */
+        .term {
+            margin-top: 14px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--sand-900);
+            border: 1px solid #3f3529;
+        }
+        .term-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-bottom: 1px solid #3f3529;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--ink-faint);
+        }
+        .term-bar i { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--ink-faint); }
+        .term-bar span { margin-left: 6px; }
+        .term-bar button {
+            margin-left: auto;
+            font-family: var(--hand);
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 1;
+            color: var(--ink);
+            background: var(--sticky);
+            border: 0;
+            border-radius: 5px 8px 4px 7px / 6px 4px 7px 5px;
+            padding: 5px 10px 3px;
+            cursor: pointer;
+        }
+        .term pre {
+            margin: 0;
+            padding: 14px 14px 16px;
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.75;
+            color: #e2ddd5;
             white-space: pre-wrap;
-            color: #fff;
+            word-break: break-word;
         }
-        .prompt .btn { position: absolute; right: 12px; bottom: 12px; margin: 0; padding: 8px 14px; font-size: .85rem; }
-        .note { font-size: .85rem; color: rgba(255, 255, 255, .55); margin-top: 8px; }
-        .warn {
-            border-left: 3px solid var(--clr-sun);
-            padding: 10px 14px;
-            margin-bottom: 18px;
-            border-radius: 0 12px 12px 0;
-            background: rgba(245, 200, 66, .1);
-            font-size: .95rem;
+        .term pre .hole { color: var(--highlight); }
+        .tip {
+            margin-top: 10px;
+            font-family: var(--hand-body);
+            font-size: 14px;
+            color: var(--ink-faint);
         }
-        footer { margin-top: 32px; font-size: .8rem; color: rgba(255, 255, 255, .45); }
-        footer a { color: rgba(255, 255, 255, .65); }
+
+        footer {
+            margin-top: 48px;
+            padding-top: 16px;
+            border-top: 1.5px dashed var(--ink-faint);
+            font-family: var(--hand-body);
+            font-size: 14px;
+            color: var(--ink-faint);
+        }
     </style>
 </head>
 <body>
-    <div class="bg"></div>
-    <main class="container">
-        <a class="back" href="../">← @code_simple</a>
-        <h1>YouTube sans putaclic</h1>
-        <p class="lede">Une extension Chrome qui remplace les miniatures par une image du milieu de la vidéo, et l'accueil par des vidéos que des développeurs se recommandent depuis près de 20 ans.</p>
+    <div class="top"><a href="../">← @code_simple</a></div>
 
-        <p class="warn">À faire sur ordinateur, dans Chrome, Brave ou Edge. Les extensions ne marchent pas sur téléphone.</p>
+    <main class="wrap">
+        <h1>YouTube <span class="highlight">sans putaclic</span></h1>
+        <p class="lede">Une extension Chrome qui remplace les miniatures par une vraie image de la vidéo, et l'accueil par des vidéos que des développeurs se recommandent depuis près de 20 ans.</p>
 
-        <section class="card">
-            <span class="tag">Le plus rapide</span>
-            <h2>Installer l'extension de la vidéo</h2>
+        <div class="compare">
+            <figure class="sketch">
+                <img src="img/recherche-originales.jpg" alt="Miniatures choisies par les créateurs" width="500" height="578">
+                <figcaption>avant</figcaption>
+            </figure>
+            <figure class="sketch">
+                <img src="img/recherche-milieu.jpg" alt="Images prises au milieu des mêmes vidéos" width="500" height="578">
+                <figcaption>après</figcaption>
+            </figure>
+        </div>
+
+        <div class="sticky">
+            <span class="bang">!</span>
+            <div><b>À faire sur ordinateur</b>, dans Chrome, Brave ou Edge. Les extensions ne marchent pas sur téléphone.</div>
+        </div>
+
+        <section>
+            <div class="step-head">
+                <div class="num sketch yellow">1</div>
+                <div>
+                    <div class="kicker">le plus rapide</div>
+                    <h2>Installer l'extension de la vidéo</h2>
+                </div>
+            </div>
             <ol>
                 <li>Télécharge l'extension et décompresse le fichier.</li>
-                <li>Ouvre <code>chrome://extensions</code> et active le <b>Mode développeur</b>, en haut à droite.</li>
+                <li>Ouvre <code>chrome://extensions</code> et active le <b>mode développeur</b>, en haut à droite.</li>
                 <li>Clique sur <b>Charger l'extension non empaquetée</b> et choisis le dossier <code>extension</code>.</li>
                 <li>Recharge YouTube.</li>
             </ol>
-            <a class="btn" href="https://github.com/codesimple-lab/youtube-sans-putaclic/archive/refs/heads/main.zip">Télécharger l'extension</a>
-            <a class="btn ghost" href="https://github.com/codesimple-lab/youtube-sans-putaclic" target="_blank" rel="noopener">Voir le code sur GitHub</a>
-            <p class="note">Deux boutons apparaissent en bas à gauche de YouTube pour revenir aux miniatures et aux recommandations d'origine.</p>
+            <div class="actions">
+                <a class="btn main sketch thick" href="https://github.com/codesimple-lab/youtube-sans-putaclic/archive/refs/heads/main.zip">→ Télécharger l'extension</a>
+                <a class="btn sketch" href="https://github.com/codesimple-lab/youtube-sans-putaclic" target="_blank" rel="noopener">le code sur GitHub</a>
+            </div>
+            <p class="tip">Deux boutons apparaissent en bas à gauche de YouTube pour revenir aux miniatures et aux recos d'origine.</p>
         </section>
 
-        <section class="card">
-            <span class="tag">Comme dans la vidéo</span>
-            <h2>La refaire avec Claude Code</h2>
+        <section>
+            <div class="step-head">
+                <div class="num sketch">2</div>
+                <div>
+                    <div class="kicker">comme dans la vidéo</div>
+                    <h2>La refaire avec Claude Code</h2>
+                </div>
+            </div>
             <ol>
                 <li>Télécharge les données sur <a href="https://hackertube.org/data" target="_blank" rel="noopener">hackertube.org/data</a> et décompresse-les.</li>
                 <li>Ouvre Claude Code dans ce dossier.</li>
                 <li>Colle cette demande.</li>
             </ol>
-            <div class="prompt" id="p1">Lis DATA.md dans ce dossier. Crée-moi une extension Chrome pour YouTube. Elle remplace l'accueil par ces vidéos, avec des filtres par type et par thème. Elle affiche partout l'image du milieu de la vidéo au lieu de la miniature, avec un bouton pour revenir aux originales. Et sur une vidéo, elle remplace les suggestions de droite par des vidéos proches de la liste.<button class="btn" data-copy="p1">Copier</button></div>
+            <div class="term">
+                <div class="term-bar"><i></i><i></i><i></i><span>prompt</span><button data-copy="p1">copier</button></div>
+                <pre id="p1">Lis DATA.md dans ce dossier. Crée-moi une extension Chrome pour YouTube. Elle remplace l'accueil par ces vidéos, avec des filtres par type et par thème. Elle affiche partout l'image du milieu de la vidéo au lieu de la miniature, avec un bouton pour revenir aux originales. Et sur une vidéo, elle remplace les suggestions de droite par des vidéos proches de la liste.</pre>
+            </div>
         </section>
 
-        <section class="card">
-            <span class="tag">Sur ce que tu aimes</span>
-            <h2>Ton propre algorithme</h2>
-            <p>Vlogs, cuisine, sport… Ouvre Claude Code dans un dossier vide, colle cette demande et remplace la partie entre crochets par les liens des chaînes que tu aimes.</p>
-            <div class="prompt" id="p2">Crée-moi une extension Chrome pour YouTube. Elle remplace l'accueil par les dernières vidéos de ces chaînes : [colle ici les liens des chaînes, par exemple https://www.youtube.com/@750g_recette_de_cuisine]. Vérifie en ligne l'identifiant de chaque chaîne. Elle cache les Shorts partout, y compris dans la recherche. Elle affiche l'image du milieu de chaque vidéo au lieu de la miniature, avec un bouton pour revenir aux originales. Pas de clé API. Explique-moi ensuite comment l'installer dans Chrome.<button class="btn" data-copy="p2">Copier</button></div>
-<p class="note">Donne les liens des chaînes plutôt que leurs noms : plusieurs chaînes portent parfois le même nom. YouTube ne donne que les 15 dernières publications de chaque chaîne, donc une chaîne qui publie surtout des Shorts apparaîtra peu.</p>
+        <section>
+            <div class="step-head">
+                <div class="num sketch">3</div>
+                <div>
+                    <div class="kicker">vlogs, cuisine, sport…</div>
+                    <h2><span class="highlight">Ton propre</span> algorithme</h2>
+                </div>
+            </div>
+            <p>Ouvre Claude Code dans un dossier vide, colle cette demande et remplace la partie en jaune par les liens des chaînes que tu aimes.</p>
+            <div class="term">
+                <div class="term-bar"><i></i><i></i><i></i><span>prompt</span><button data-copy="p2">copier</button></div>
+                <pre id="p2">Crée-moi une extension Chrome pour YouTube. Elle remplace l'accueil par les dernières vidéos de ces chaînes : <span class="hole">[colle ici les liens des chaînes, par exemple https://www.youtube.com/@750g_recette_de_cuisine]</span>. Vérifie en ligne l'identifiant de chaque chaîne. Elle cache les Shorts partout, y compris dans la recherche. Elle affiche l'image du milieu de chaque vidéo au lieu de la miniature, avec un bouton pour revenir aux originales. Pas de clé API. Explique-moi ensuite comment l'installer dans Chrome.</pre>
+            </div>
+            <p class="tip">Donne les liens des chaînes plutôt que leurs noms, plusieurs chaînes portent parfois le même. YouTube ne donne que les 15 dernières publications de chaque chaîne, donc une chaîne qui fait surtout des Shorts apparaîtra peu.</p>
         </section>
 
         <footer>
-            Données : <a href="https://hackertube.org" target="_blank" rel="noopener">HackerTube</a> (projet d'Andrej Karpathy) et
+            Données <a href="https://hackertube.org" target="_blank" rel="noopener">HackerTube</a> (le projet d'Andrej Karpathy) et
             <a href="https://huggingface.co/datasets/open-index/hacker-news" target="_blank" rel="noopener">open-index/hacker-news</a>,
             licence <a href="https://opendatacommons.org/licenses/by/1-0/" target="_blank" rel="noopener">ODC-By 1.0</a>.
             Sans lien avec YouTube, Google, Hacker News ou Y Combinator.
         </footer>
     </main>
+
     <script>
         document.querySelectorAll('[data-copy]').forEach((b) => {
             b.addEventListener('click', async () => {
-                const box = document.getElementById(b.dataset.copy);
-                const text = box.firstChild.textContent.trim();
+                const pre = document.getElementById(b.dataset.copy);
                 let ok = false;
-                try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {}
+                try { await navigator.clipboard.writeText(pre.textContent.trim()); ok = true; } catch (e) {}
                 if (!ok) {
                     const range = document.createRange();
-                    range.selectNodeContents(box.firstChild);
+                    range.selectNodeContents(pre);
                     const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
                     try { ok = document.execCommand('copy'); } catch (e) {}
                 }
-                b.textContent = ok ? 'Copié !' : 'Sélectionné';
-                setTimeout(() => (b.textContent = 'Copier'), 1800);
+                b.textContent = ok ? 'copié !' : 'sélectionné';
+                setTimeout(() => (b.textContent = 'copier'), 1800);
             });
         });
     </script>
