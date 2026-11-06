@@ -7,7 +7,7 @@
     <meta name="description" content="Le guide de la vidéo : l'extension Chrome toute prête et les prompts pour la refaire avec Claude Code.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Kalam:wght@300;400;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* même papier que la cheatsheet Claude Code */
         :root {
@@ -21,7 +21,7 @@
             --highlight: #ffe08a;
             --sticky: #fef4a8;
             --hand: 'Caveat', cursive;
-            --hand-body: 'Kalam', cursive;
+            --body: 'Space Grotesk', system-ui, sans-serif;
             --mono: 'JetBrains Mono', ui-monospace, monospace;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -65,8 +65,8 @@
             margin-bottom: 10px;
         }
         .lede {
-            font-family: var(--hand-body);
-            font-size: 17px;
+            font-family: var(--body);
+            font-size: 16px;
             color: var(--ink-soft);
         }
 
@@ -94,7 +94,7 @@
             margin: 26px 0 8px;
             border-radius: 6px 9px 4px 8px / 7px 5px 8px 4px;
             transform: rotate(-0.5deg);
-            font-family: var(--hand-body);
+            font-family: var(--body);
             font-size: 16px;
         }
         .sticky .bang {
@@ -119,10 +119,11 @@
         }
         .num.yellow { background: var(--sticky); }
         h2 {
-            font-family: var(--hand);
+            font-family: var(--body);
             font-weight: 700;
-            font-size: 30px;
-            line-height: 1.1;
+            font-size: 21px;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
         }
         .kicker {
             font-family: var(--mono);
@@ -131,13 +132,13 @@
             letter-spacing: .04em;
         }
         section p, section li {
-            font-family: var(--hand-body);
-            font-size: 16px;
+            font-family: var(--body);
+            font-size: 15px;
             color: var(--ink-soft);
         }
         ol { padding-left: 22px; margin: 6px 0 4px; }
         li { margin-bottom: 4px; }
-        li::marker { font-family: var(--hand); font-weight: 700; color: var(--ink); }
+        li::marker { font-weight: 700; color: var(--ink); }
         code {
             font-family: var(--mono);
             font-size: .82em;
@@ -211,7 +212,7 @@
         .term pre .hole { color: var(--highlight); }
         .tip {
             margin-top: 10px;
-            font-family: var(--hand-body);
+            font-family: var(--body);
             font-size: 14px;
             color: var(--ink-faint);
         }
@@ -220,7 +221,7 @@
             margin-top: 48px;
             padding-top: 16px;
             border-top: 1.5px dashed var(--ink-faint);
-            font-family: var(--hand-body);
+            font-family: var(--body);
             font-size: 14px;
             color: var(--ink-faint);
         }
