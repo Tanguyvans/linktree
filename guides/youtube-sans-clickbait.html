@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube sans clickbait | Code Simple</title>
     <meta name="description" content="Le guide de la vidéo : l'extension Chrome toute prête et les prompts pour la refaire avec Claude Code.">
+    <link rel="icon" href="../profile.png">
+    <link rel="apple-touch-icon" href="../profile.png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Code Simple">
+    <meta property="og:title" content="YouTube sans clickbait">
+    <meta property="og:description" content="L'extension Chrome toute prête et les prompts pour la refaire avec Claude Code.">
+    <meta property="og:url" content="https://tanguyvans.github.io/linktree/guides/youtube-sans-clickbait.html">
+    <meta property="og:image" content="https://tanguyvans.github.io/linktree/guides/img/apercu.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Une miniature YouTube, puis une image prise au milieu de la même vidéo">
+    <meta property="og:locale" content="fr_FR">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -106,6 +119,20 @@
             font-weight: 700; font-family: 'Space Grotesk', sans-serif; font-size: 15px;
         }
         .sticky b { font-weight: 700; }
+        .sticky .send {
+            display: block;
+            margin-top: 10px;
+            font-family: var(--hand);
+            font-weight: 700;
+            font-size: 22px;
+            line-height: 1.1;
+            color: var(--ink);
+            background: #fff;
+            border: 1.5px solid var(--ink);
+            border-radius: 8px 5px 9px 4px / 4px 8px 5px 9px;
+            padding: 6px 14px 4px;
+            cursor: pointer;
+        }
 
         section { margin-top: 40px; }
         .step-head { display: flex; gap: 14px; align-items: center; margin-bottom: 10px; }
@@ -236,18 +263,23 @@
 
         <div class="compare">
             <figure class="sketch">
-                <img src="img/accueil-originales.jpg" alt="L'accueil avec les miniatures choisies par les créateurs" width="1200" height="939">
+                <picture><source media="(max-width: 560px)" srcset="img/accueil-originales-mobile.jpg" width="772" height="370">
+                <img src="img/accueil-originales.jpg" alt="L'accueil avec les miniatures choisies par les créateurs" width="1200" height="939"></picture>
                 <figcaption>avant : les miniatures</figcaption>
             </figure>
             <figure class="sketch">
-                <img src="img/accueil-milieu.jpg" alt="Le même accueil avec une image prise au milieu de chaque vidéo" width="1200" height="939">
+                <picture><source media="(max-width: 560px)" srcset="img/accueil-milieu-mobile.jpg" width="772" height="370">
+                <img src="img/accueil-milieu.jpg" alt="Le même accueil avec une image prise au milieu de chaque vidéo" width="1200" height="939"></picture>
                 <figcaption>après : une image du milieu de la vidéo</figcaption>
             </figure>
         </div>
 
         <div class="sticky">
             <span class="bang">!</span>
-            <div><b>À faire sur ordinateur</b>, dans Chrome, Brave ou Edge. Les extensions ne marchent pas sur téléphone.</div>
+            <div>
+                <b>À faire sur ordinateur</b>, dans Chrome, Brave ou Edge. Les extensions ne marchent pas sur téléphone.
+                <button class="send" type="button">→ m'envoyer le lien</button>
+            </div>
         </div>
 
         <section>
@@ -315,6 +347,20 @@
     </main>
 
     <script>
+        // sur téléphone : ouvre le menu de partage (AirDrop, mail, notes) ; sinon copie le lien
+        const send = document.querySelector('.send');
+        send.addEventListener('click', async () => {
+            const url = location.href.split('#')[0];
+            if (navigator.share) {
+                try { await navigator.share({ title: 'YouTube sans clickbait', url }); return; }
+                catch (e) { if (e.name === 'AbortError') return; }
+            }
+            let ok = false;
+            try { await navigator.clipboard.writeText(url); ok = true; } catch (e) {}
+            send.textContent = ok ? 'lien copié !' : url;
+            if (ok) setTimeout(() => (send.textContent = "→ m'envoyer le lien"), 1800);
+        });
+
         document.querySelectorAll('[data-copy]').forEach((b) => {
             b.addEventListener('click', async () => {
                 const pre = document.getElementById(b.dataset.copy);
